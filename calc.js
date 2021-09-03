@@ -19,6 +19,9 @@
   const lenMax = maxData.length;
   const lenMin = minData.length;
 
+  // 起動時に日付乗法を更新
+  loadDate();
+
   // 血圧データのコールバック設定
   for (let i=0; i<lenMax; i++) {
     // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
@@ -126,6 +129,17 @@
     else {
       // 平均値を計算しtd内に設定
       output.innerHTML = sum / num;
+    }
+  }
+
+  function loadDate() {
+    let re = /date=(\d+)/;
+    let value = re.exec(document.cookie);
+
+    // 該当cookieが存在
+    if (value) {
+      // [1]が取り出した値$1
+      dateEdit.value = month_day(new Date(value[1]));
     }
   }
 
