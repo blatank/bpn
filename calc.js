@@ -140,6 +140,9 @@
     if (value) {
       // [1]が取り出した値$1
       dateEdit.value = month_day(new Date(parseInt(value[1])));
+      
+      // 一番上以外の日付情報更新(onchange呼ばれないので自前でコール)
+      updateDate();
     }
   }
 
