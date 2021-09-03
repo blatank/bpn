@@ -62,10 +62,10 @@
     // dayは一番上以外の要素が入っている(一番上はinput要素、それ以外はtd要素)
     for (let i=0; i<day.length; i++) {
       // dateに1日足す
-      today.setDate(today.getDate() + 1);   // 月末に+1してもこれでうまく行く
+      date.setDate(date.getDate() + 1);   // 月末に+1してもこれでうまく行く
 
       // tdに設定
-      day[i].innerHTML = month_day(today);  // 整形はmonth_dayで実施
+      day[i].innerHTML = month_day(date);  // 整形はmonth_dayで実施
     }
   }
 
