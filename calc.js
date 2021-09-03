@@ -139,11 +139,7 @@
     // 該当cookieが存在
     if (value) {
       // [1]が取り出した値$1
-      let date = new Date(value[1])
-      dateEdit.value = month_day(date);
-
-      // test
-      console.log(value[1]);
+      dateEdit.value = month_day(new Date(parsetInt(value[1])));
     }
   }
 
