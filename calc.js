@@ -58,6 +58,9 @@
     // dateは2001年になっているので、年を今現在のデータに修正する
     date.setFullYear(today.getFullYear());
 
+    // cookie更新
+    saveDate(date);
+
     // 残りの日付情報更新
     // dayは一番上以外の要素が入っている(一番上はinput要素、それ以外はtd要素)
     for (let i=0; i<day.length; i++) {
@@ -124,5 +127,11 @@
       // 平均値を計算しtd内に設定
       output.innerHTML = sum / num;
     }
+  }
+
+  // cookie更新
+  function saveDate(date) {
+    // 時間として保存(月/日で保存するとまた2001年になってしまうため)
+    document.cookie = `date=${date.getTime()}`;
   }
 })();
