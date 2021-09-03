@@ -19,7 +19,7 @@
   const lenMax = maxData.length;
   const lenMin = minData.length;
 
-  // 起動時に日付乗法を更新
+  // 起動時に日付情報を更新
   loadDate();
 
   // 血圧データのコールバック設定
@@ -140,6 +140,9 @@
     if (value) {
       // [1]が取り出した値$1
       dateEdit.value = month_day(new Date(value[1]));
+
+      // test
+      console.log(value[1]);
     }
   }
 
