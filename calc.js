@@ -19,6 +19,9 @@
   const lenMax = maxData.length;
   const lenMin = minData.length;
 
+  // 起動時に日付情報を更新
+  loadDate();
+
   // 血圧データのコールバック設定
   for (let i=0; i<lenMax; i++) {
     // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
@@ -57,6 +60,9 @@
 
     // dateは2001年になっているので、年を今現在のデータに修正する
     date.setFullYear(today.getFullYear());
+
+    // cookie更新
+    saveDate(date);
 
     // 残りの日付情報更新
     // dayは一番上以外の要素が入っている(一番上はinput要素、それ以外はtd要素)
@@ -124,5 +130,25 @@
       // 平均値を計算しtd内に設定
       output.innerHTML = sum / num;
     }
+  }
+
+  function loadDate() {
+    let re = /date=(\d+)/;
+    let value = re.exec(document.cookie);
+
+    // 該当cookieが存在
+    if (value) {
+      // [1]が取り出した値$1
+      dateEdit.value = month_day(new Date(parseInt(value[1])));
+      
+      // 一番上以外の日付情報更新(onchange呼ばれないので自前でコール)
+      updateDate();
+    }
+  }
+
+  // cookie更新
+  function saveDate(date) {
+    // 時間として保存(月/日で保存するとまた2001年になってしまうため)
+    document.cookie = `date=${date.getTime()}`;
   }
 })();
