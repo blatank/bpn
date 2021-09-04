@@ -1,8 +1,9 @@
 (function() {
   'use strict';
   
-  // デバッグ用ボタン
+  // デバッグ用
   const btn = document.getElementById('test');
+  const dbg = document.getElementById('debug');
 
   // 平均値表示箇所
   const maxEdit = document.getElementById('max-ave');
@@ -60,6 +61,9 @@
 
     // dateは2001年になっているので、年を今現在のデータに修正する
     date.setFullYear(today.getFullYear());
+
+    // debug
+    dbg.innerHTML = date;
 
     // cookie更新
     saveDate(date);
