@@ -2,12 +2,13 @@
   'use strict';
   
   // デバッグ用
-  const btn = document.getElementById('test');
   const dbg = document.getElementById('debug');
 
   // 平均値表示箇所
-  const maxEdit = document.getElementById('max-ave');
-  const minEdit = document.getElementById('min-ave');
+  const tdMorMax = document.getElementById('mor-max-ave');
+  const tdMorMin = document.getElementById('mor-min-ave');
+  const tdNgtMax = document.getElementById('ngt-max-ave');
+  const tdNgtMin = document.getElementById('ngt-min-ave');
 
   // 日付関連
   const todayBtn = document.getElementById('today');
@@ -15,27 +16,44 @@
   let day = document.getElementsByClassName("day");
 
   // 各データ
-  let maxData = document.getElementsByClassName("mor-max");
-  let minData = document.getElementsByClassName("mor-min");
-  const lenMax = maxData.length;
-  const lenMin = minData.length;
+  let dataMorMax = document.getElementsByClassName("mor-max");
+  let dataMorMin = document.getElementsByClassName("mor-min");
+  let dataNgtMax = document.getElementsByClassName("ngt-max");
+  let dataNgtMin = document.getElementsByClassName("ngt-min");
+  const lenMorMax = dataMorMax.length;
+  const lenMorMin = dataMorMin.length;
+  const lenNgtMax = dataNgtMax.length;
+  const lenNgtMin = dataNgtMin.length;
 
   // 起動時に日付情報を更新
   loadDate();
 
   // 血圧データのコールバック設定
-  for (let i=0; i<lenMax; i++) {
+  for (let i=0; i<lenMorMax; i++) {
     // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
-    maxData[i].onchange = calcMax;
+    dataMorMax[i].onchange = function() {
+      calcData(dataMorMax, tdMorMax);
+    };
   }
-  for (let i=0; i<lenMin; i++) {
+  for (let i=0; i<lenMorMin; i++) {
     // 最小側のエディットボックスでchangeイベントが発生したら最小値を再演算
-    minData[i].onchange = calcMin;
+    dataMorMin[i].onchange = function() {
+      calcData(dataMorMin, tdMorMin);
+    };
   }
-
-  // テスト用ボタン(クリック時に動作)
-  btn.onclick = calc;
-
+  for (let i=0; i<lenNgtMax; i++) {
+    // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
+    dataNgtMax[i].onchange = function() {
+      calcData(dataNgtMax, tdNgtMax);
+    };
+  }
+  for (let i=0; i<lenNgtMin; i++) {
+    // 最小側のエディットボックスでchangeイベントが発生したら最小値を再演算
+    dataNgtMin[i].onchange = function() {
+      calcData(dataNgtMin, tdNgtMin);
+    };
+  }
+  
   // 「今日」ボタンクリック時の処理
   todayBtn.onclick = function() {
     // 今日の日付情報を取得
@@ -81,22 +99,6 @@
     return `${date.getMonth()+1}/${date.getDate()}`;
   }
 
-  // 最大値最小値の平均値更新
-  function calc() {
-    calcMax();
-    calcMin();
-  }
-
-  // 最大値の平均値計算
-  function calcMax() {
-    calcData(maxData, maxEdit);
-  }
-
-  // 最小値の平均値計算
-  function calcMin() { 
-    calcData(minData, minEdit);
-  }
-
   // 平均値計算
   // data: エディットボックスの配列
   // output: 平均の出力先(td要素を想定)
@@ -107,7 +109,7 @@
     
     // 入力値から平均値を求める
     for (let i=0; i<data.length; i++) {
-      if (!isNaN(data[i].value)       // 文字列(maxData[i].value)が数字かどうか
+      if (!isNaN(data[i].value)       // 文字列(dataMorMax[i].value)が数字かどうか
                                       // isNaNは文字列が非数ならtrueを返す
                                       // ので、!をつけて数字ならtrueを返す
                                       // ただし、空文字は数字扱いにされる 
@@ -131,6 +133,12 @@
     }
   }
 
+  // 入力データの保存
+  function saveInputData() {
+
+  }
+  
+  // 日付情報のロード
   function loadDate() {
     let re = /date=(\d+)/;
     let value = re.exec(document.cookie);
@@ -145,7 +153,7 @@
     }
   }
 
-  // cookie更新
+  // 日付情報の保存
   function saveDate(date) {
     // 時間として保存(月/日で保存するとまた2001年になってしまうため)
     document.cookie = `date=${date.getTime()}`;
