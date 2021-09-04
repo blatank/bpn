@@ -57,13 +57,8 @@
 
     // エディットボックスのデータをDateオブジェクトに変換
     // ここに日付しかない場合は年が2001年に設定される
-    let date = new Date(dateEdit.value);
-
-    // dateは2001年になっているので、年を今現在のデータに修正する
-    date.setFullYear(today.getFullYear());
-
-    // debug
-    dbg.innerHTML = date;
+    // 年を今現在のデータに修正してからDateオブジェクトを生成
+    let date = new Date(`${today.getFullYear()}/${dateEdit.value}`);
 
     // cookie更新
     saveDate(date);
