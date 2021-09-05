@@ -158,7 +158,7 @@
   // 入力データの保存
   function saveInputData() {
     let loopNum = day.length + 1; // 最初のエディットボックスの分を入れる
-    let dataForSave = "";
+    let dataForSave = "data=";
     for (let i=0; i<loopNum; i++) {
       if (i > 0) dataForSave += ",";
       dataForSave += `${dataMorMax[i].value},${dataMorMin[i].value},${dataMorPul[i].value},${dataNgtMax[i].value},${dataNgtMin[i].value},${dataNgtPul[i].value}`;
