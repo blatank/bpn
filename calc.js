@@ -180,7 +180,7 @@
     if (value) {
       let datas = value[1].split(",");
 
-      if (datas.length > 0 && ((datas.length + 1) % 6) === 0) {
+      if (datas.length > 0 && (datas.length % 6) === 0) {
         let loopNum = day.length + 1; // 最初のエディットボックスの分を入れる
         for (let i=0; i<loopNum; i++) {
           dataMorMax[i].value = datas[i*6];
