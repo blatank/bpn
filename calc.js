@@ -163,7 +163,7 @@
       if (i > 0) dataForSave += ",";
       dataForSave += `${dataMorMax[i].value},${dataMorMin[i].value},${dataMorPul[i].value},${dataNgtMax[i].value},${dataNgtMin[i].value},${dataNgtPul[i].value}`;
     }
-    document.cookie(dataForSave);
+    document.cookie = dataForSave;
     console.log(dataForSave);
   }
   
