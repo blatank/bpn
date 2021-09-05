@@ -4,6 +4,10 @@
   // デバッグ用
   const dbg = document.getElementById('debug');
 
+  // クリアボタン
+  const clrBtn = document.getElementById('clear');
+  clrBtn.onclick = clearAllData;
+
   // 平均値表示箇所
   const tdMorMax = document.getElementById('mor-max-ave');
   const tdMorMin = document.getElementById('mor-min-ave');
@@ -160,6 +164,31 @@
     }
   }
 
+  // 全データ再演算する
+  function calcAllData() {
+    calcData(dataMorMax, tdMorMax);
+    calcData(dataMorMin, tdMorMin);
+    calcData(dataMorPul, tdMorPul);
+    calcData(dataNgtMax, tdNgtMax);
+    calcData(dataNgtMin, tdNgtMin);
+    calcData(dataNgtPul, tdNgtPul);
+  }
+
+  // データクリア
+  function clearAllData() {
+    let loopNum = day.length + 1; // 最初のエディットボックスの分を入れる
+    for (let i=0; i<loopNum; i++) {
+      dataMorMax[i].value = "";
+      dataMorMin[i].value = "";
+      dataMorPul[i].value = "";
+      dataNgtMax[i].value = "";
+      dataNgtMin[i].value = "";
+      dataNgtPul[i].value = "";
+    }
+    // 再演算しておく
+    calcAllData();    
+  }
+
   // 入力データの保存
   function saveInputData() {
     let loopNum = day.length + 1; // 最初のエディットボックスの分を入れる
@@ -191,12 +220,7 @@
           dataNgtMin[i].value = datas[i*6+4];
           dataNgtPul[i].value = datas[i*6+5];
         }
-        calcData(dataMorMax, tdMorMax);
-        calcData(dataMorMin, tdMorMin);
-        calcData(dataMorPul, tdMorPul);
-        calcData(dataNgtMax, tdNgtMax);
-        calcData(dataNgtMin, tdNgtMin);
-        calcData(dataNgtPul, tdNgtPul);
+        calcAllData();
       }
     }
   }
