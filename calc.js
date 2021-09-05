@@ -7,8 +7,10 @@
   // 平均値表示箇所
   const tdMorMax = document.getElementById('mor-max-ave');
   const tdMorMin = document.getElementById('mor-min-ave');
+  const tdMorPul = document.getElementById('mor-pul-ave');
   const tdNgtMax = document.getElementById('ngt-max-ave');
   const tdNgtMin = document.getElementById('ngt-min-ave');
+  const tdNgtPul = document.getElementById('ngt-pul-ave');
 
   // 日付関連
   const todayBtn = document.getElementById('today');
@@ -18,12 +20,16 @@
   // 各データ
   let dataMorMax = document.getElementsByClassName("mor-max");
   let dataMorMin = document.getElementsByClassName("mor-min");
+  let dataMorPul = document.getElementsByClassName("mor-pul");
   let dataNgtMax = document.getElementsByClassName("ngt-max");
   let dataNgtMin = document.getElementsByClassName("ngt-min");
+  let dataNgtPul = document.getElementsByClassName("ngt-pul");
   const lenMorMax = dataMorMax.length;
   const lenMorMin = dataMorMin.length;
+  const lenMorPul = dataMorPul.length;
   const lenNgtMax = dataNgtMax.length;
   const lenNgtMin = dataNgtMin.length;
+  const lenNgtPul = dataNgtPul.length;
 
   // 起動時に日付情報を更新
   loadDate();
@@ -41,16 +47,32 @@
       calcData(dataMorMin, tdMorMin);
     };
   }
+  for (let i=0; i<lenMorPul; i++) {
+    // Pulse(朝)が変更されたら再演算
+    dataMorPul[i].onchange = function() {
+      calcData(dataMorPul, tdMorPul);
+      saveInputData();
+    };
+  }
   for (let i=0; i<lenNgtMax; i++) {
     // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
     dataNgtMax[i].onchange = function() {
       calcData(dataNgtMax, tdNgtMax);
+      saveInputData();
     };
   }
   for (let i=0; i<lenNgtMin; i++) {
     // 最小側のエディットボックスでchangeイベントが発生したら最小値を再演算
     dataNgtMin[i].onchange = function() {
       calcData(dataNgtMin, tdNgtMin);
+      saveInputData();
+    };
+  }
+  for (let i=0; i<lenNgtPul; i++) {
+    // Pulse(夜)が変更されたら再演算
+    dataNgtPul[i].onchange = function() {
+      calcData(dataNgtPul, tdNgtPul);
+      saveInputData();
     };
   }
   
@@ -135,7 +157,14 @@
 
   // 入力データの保存
   function saveInputData() {
-
+    let loopNum = day.length + 1; // 最初のエディットボックスの分を入れる
+    let dataForSave = "";
+    for (let i=0; i<loopNum; i++) {
+      if (i > 0) dataForSave += ",";
+      dataForSave += `${dataMorMax[i].value},${dataMorMin[i].value},${dataMorPul[i].value},${dataNgtMax[i].value},${dataNgtMin[i].value},${dataNgtPul[i].value}`;
+    }
+    document.cookie(dataForSave);
+    console.log(dataForSave);
   }
   
   // 日付情報のロード
