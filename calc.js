@@ -33,18 +33,22 @@
 
   // 起動時に日付情報を更新
   loadDate();
-
+  // データロード
+  loadInputData();
+  
   // 血圧データのコールバック設定
   for (let i=0; i<lenMorMax; i++) {
     // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
     dataMorMax[i].onchange = function() {
       calcData(dataMorMax, tdMorMax);
+      saveInputData();
     };
   }
   for (let i=0; i<lenMorMin; i++) {
     // 最小側のエディットボックスでchangeイベントが発生したら最小値を再演算
     dataMorMin[i].onchange = function() {
       calcData(dataMorMin, tdMorMin);
+      saveInputData();
     };
   }
   for (let i=0; i<lenMorPul; i++) {
@@ -165,6 +169,35 @@
     }
     document.cookie = dataForSave;
     console.log(dataForSave);
+  }
+
+  // 血圧データのロード
+  function loadInputData() {
+    let re = /data=([\d|,]+)/;
+    let value = re.exec(document.cookie);
+
+    // 該当cookieが存在
+    if (value) {
+      let datas = value[1].split(",");
+
+      if (datas.length > 0 && ((datas.length + 1) % 6) === 0) {
+        let loopNum = day.length + 1; // 最初のエディットボックスの分を入れる
+        for (let i=0; i<loopNum; i++) {
+          dataMorMax[i].value = datas[i*6];
+          dataMorMin[i].value = datas[i*6+1];
+          dataMorPul[i].value = datas[i*6+2];
+          dataNgtMax[i].value = datas[i*6+3];
+          dataNgtMin[i].value = datas[i*6+4];
+          dataNgtPul[i].value = datas[i*6+5];
+        }
+        calcData(dataMorMax, tdMorMax);
+        calcData(dataMorMin, tdMorMin);
+        calcData(dataMorPul, tdMorPul);
+        calcData(dataNgtMax, tdNgtMax);
+        calcData(dataNgtMin, tdNgtMin);
+        calcData(dataNgtPul, tdNgtPul);
+      }
+    }
   }
   
   // 日付情報のロード
