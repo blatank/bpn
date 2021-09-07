@@ -19,7 +19,9 @@
   // 日付関連
   const todayBtn = document.getElementById('today');
   const dateEdit = document.getElementById('startDate');
-  let day = document.getElementsByClassName("day");
+  // let days = document.getElementsByClassName("day");
+  const days = document.querySelectorAll('.day');
+
 
   // 各データ
   let dataMorMax = document.getElementsByClassName("mor-max");
@@ -100,7 +102,18 @@
   
   // 日付情報更新処理
   function updateDate() {
-    // まず今日のデータを取得する
+
+    // 自動箇所はまず空にする
+    days.forEach(day => {
+      day.innerHTML = "";
+    });
+
+    // エディットボックスが空なら終了する
+    if (dateEdit.value === "") {
+      return;
+    }
+
+    // 今日のデータを取得する
     let today = new Date();
 
     // エディットボックスのデータをDateオブジェクトに変換
@@ -113,16 +126,16 @@
 
     // 残りの日付情報更新
     // dayは一番上以外の要素が入っている(一番上はinput要素、それ以外はtd要素)
-    for (let i=0; i<day.length; i++) {
+    for (let i=0; i<days.length; i++) {
       // dateに1日足す
       date.setDate(date.getDate() + 1);   // 月末に+1してもこれでうまく行く
 
       // tdに設定
-      day[i].innerHTML = month_day(date);  // 整形はmonth_dayで実施
+      days[i].innerHTML = month_day(date);  // 整形はmonth_dayで実施
     }
   }
 
-  // 日付情報を整形("month/day")の形にする
+  // 日付情報を整形("month/days")の形にする
   function month_day(date) {
     // getMonthは0始まりの月を返す(0=1月)
     // getDateは日付を返す
@@ -177,7 +190,7 @@
 
   // データクリア
   function clearAllData() {
-    let loopNum = day.length + 1; // 最初のエディットボックスの分を入れる
+    let loopNum = days.length + 1; // 最初のエディットボックスの分を入れる
     for (let i=0; i<loopNum; i++) {
       dataMorMax[i].value = "";
       dataMorMin[i].value = "";
@@ -188,11 +201,15 @@
     }
     // 再演算しておく
     calcAllData();    
+
+    // 日付もクリア(自動箇所はupdateDate()でクリア)
+    dateEdit.value = "";
+    updateDate();
   }
 
   // 入力データの保存
   function saveInputData() {
-    let loopNum = day.length + 1; // 最初のエディットボックスの分を入れる
+    let loopNum = days.length + 1; // 最初のエディットボックスの分を入れる
     let dataForSave = "data=";
     for (let i=0; i<loopNum; i++) {
       if (i > 0) dataForSave += ",";
@@ -212,7 +229,7 @@
       let datas = value[1].split(",");
 
       if (datas.length > 0 && (datas.length % 6) === 0) {
-        let loopNum = day.length + 1; // 最初のエディットボックスの分を入れる
+        let loopNum = days.length + 1; // 最初のエディットボックスの分を入れる
         for (let i=0; i<loopNum; i++) {
           dataMorMax[i].value = datas[i*6];
           dataMorMin[i].value = datas[i*6+1];
