@@ -161,7 +161,7 @@
     else {
       // 平均値を計算しtd内に設定
       // 小数点第1位までを有効桁とする
-      output.innerHTML = round(sum * 10 / num) / 10;
+      output.innerHTML = Math.round(sum * 10 / num) / 10;
     }
   }
 
