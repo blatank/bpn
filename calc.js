@@ -8,6 +8,10 @@
   const clrBtn = document.getElementById('clear');
   clrBtn.onclick = clearAllData;
 
+  // outputボタン
+  const outputBtn = document.getElementById('output');
+  outputBtn.onclick = saveClipboard();
+
   // 平均値表示箇所
   const tdMorMax = document.getElementById('mor-max-ave');
   const tdMorMin = document.getElementById('mor-min-ave');
@@ -19,7 +23,6 @@
   // 日付関連
   const todayBtn = document.getElementById('today');
   const dateEdit = document.getElementById('startDate');
-  // let days = document.getElementsByClassName("day");
   const days = document.querySelectorAll('.day');
 
 
@@ -262,5 +265,17 @@
   function saveDate(date) {
     // 時間として保存(月/日で保存するとまた2001年になってしまうため)
     document.cookie = `date=${date.getTime()}`;
+  }
+
+  // クリップボードにすべてのデータを保存
+  function saveClipboard() {
+    // cookieのデータをクリップボードに保存
+    navigator.clipboard.writeText(document.cookie).then(function() {
+      // 成功
+      alert(`クリップボードに\n${document.cookie}\nをコピーしました！`);
+    }, function() {
+      // 失敗
+      alert('クリップボードの操作に失敗しました');
+    });
   }
 })();
