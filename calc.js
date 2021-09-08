@@ -10,7 +10,7 @@
 
   // outputボタン
   const outputBtn = document.getElementById('output');
-  outputBtn.onclick = saveClipboard();
+  outputBtn.onclick = saveClipboard;
 
   // 平均値表示箇所
   const tdMorMax = document.getElementById('mor-max-ave');
