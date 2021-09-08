@@ -12,6 +12,11 @@
   const outputBtn = document.getElementById('output');
   outputBtn.onclick = saveClipboard;
 
+  // loadボタン
+  const loadBtn = document.getElementById('load');
+  loadBtn.onclick = loadTextData;
+
+
   // 平均値表示箇所
   const tdMorMax = document.getElementById('mor-max-ave');
   const tdMorMin = document.getElementById('mor-min-ave');
@@ -277,5 +282,21 @@
       // 失敗
       alert('クリップボードの操作に失敗しました');
     });
+  }
+
+  // データロード
+  function loadTextData() {
+    const inputStr = prompt("データを入力下さい(outputボタンをクリックしたときのもの)。");
+    if (inputStr) {
+      // cookie作成
+      document.cookie = inputStr;
+
+      // 起動時に日付情報を更新
+      loadDate();
+      // データロード
+      loadInputData();
+
+      alert("データロードしました！");
+    }
   }
 })();
