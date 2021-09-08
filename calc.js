@@ -296,7 +296,8 @@
       
       // dateが有効？
       if (date_value) {
-        document.cookie = date_value[1];
+        // cookie保存する
+        document.cookie = `date=${date_value[1]}`;
 
         // 起動時に日付情報を更新
         loadDate();
@@ -310,7 +311,8 @@
 
       // dataが有効？
       if (data_value) {
-        document.cookie = inputStr;
+        // cookie保存する
+        document.cookie = `data=${data_value[1]}`;
 
         // データロード
         loadInputData();
