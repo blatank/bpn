@@ -250,7 +250,7 @@
       }
     }
   }
-  
+
   // 日付情報のロード
   function loadDate() {
     let re = /date=(\d+)/;
@@ -288,15 +288,49 @@
   function loadTextData() {
     const inputStr = prompt("データを入力下さい(outputボタンをクリックしたときのもの)。");
     if (inputStr) {
-      // cookie作成
-      document.cookie = inputStr;
+      let res = 0;
 
-      // 起動時に日付情報を更新
-      loadDate();
-      // データロード
-      loadInputData();
+      // date抽出
+      const date_re = /date=(\d+)/;
+      const date_value = date_re.exec(inputStr);
+      
+      // dateが有効？
+      if (date_value) {
+        document.cookie = date_value[1];
 
-      alert("データロードしました！");
+        // 起動時に日付情報を更新
+        loadDate();
+
+        res += 1;
+      }
+
+      // data抽出
+      const data_re = /data=([\d|,]+)/;
+      const data_value = data_re.exec(inputStr);
+
+      // dataが有効？
+      if (data_value) {
+        document.cookie = inputStr;
+
+        // データロード
+        loadInputData();
+
+        res += 2;
+      }
+
+      // メッセージ出力
+      if (res === 3) {
+        alert("データロードしました！");
+      }
+      else if (res === 2) {
+        alert("日付情報のロードに失敗しました");
+      }
+      else if (res === 1) {
+        alert("血圧・心拍数のロード似失敗したか、もともとデータがありませんでした");
+      }
+      else {
+        alert("入力されたデータは有効データではありませんでした");
+      }
     }
   }
 })();
