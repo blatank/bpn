@@ -14,10 +14,14 @@
   let day = document.getElementsByClassName("day");
 
   // 各データ
-  let maxData = document.getElementsByClassName("mor-max");
-  let minData = document.getElementsByClassName("mor-min");
-  const lenMax = maxData.length;
-  const lenMin = minData.length;
+  let dataMorMax = document.getElementsByClassName("mor-max");
+  let dataMorMin = document.getElementsByClassName("mor-min");
+  let dataMorPul = document.getElementsByClassName("mor-pul");
+  let dataNgtMax = document.getElementsByClassName("ngt-max");
+  let dataNgtMin = document.getElementsByClassName("ngt-min");
+  let dataNgtPul = document.getElementsByClassName("ngt-pul");
+  const lenMax = dataMorMax.length;
+  const lenMin = dataMorMin.length;
 
   // 起動時に日付情報を更新
   loadDate();
@@ -25,15 +29,15 @@
   // 血圧データのコールバック設定
   for (let i=0; i<lenMax; i++) {
     // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
-    maxData[i].onchange = calcMax;
+    dataMorMax[i].onchange = calcMax;
   }
   for (let i=0; i<lenMin; i++) {
     // 最小側のエディットボックスでchangeイベントが発生したら最小値を再演算
-    minData[i].onchange = calcMin;
+    dataMorMin[i].onchange = calcMin;
   }
 
   // テスト用ボタン(クリック時に動作)
-  btn.onclick = calc;
+  btn.onclick = saveData;
 
   // 「今日」ボタンクリック時の処理
   todayBtn.onclick = function() {
@@ -90,12 +94,12 @@
 
   // 最大値の平均値計算
   function calcMax() {
-    calcData(maxData, maxEdit);
+    calcData(dataMorMax, maxEdit);
   }
 
   // 最小値の平均値計算
   function calcMin() { 
-    calcData(minData, minEdit);
+    calcData(dataMorMin, minEdit);
   }
 
   // 平均値計算
@@ -108,7 +112,7 @@
     
     // 入力値から平均値を求める
     for (let i=0; i<data.length; i++) {
-      if (!isNaN(data[i].value)       // 文字列(maxData[i].value)が数字かどうか
+      if (!isNaN(data[i].value)       // 文字列(dataMorMax[i].value)が数字かどうか
                                       // isNaNは文字列が非数ならtrueを返す
                                       // ので、!をつけて数字ならtrueを返す
                                       // ただし、空文字は数字扱いにされる 
@@ -150,5 +154,21 @@
   function saveDate(date) {
     // 時間として保存(月/日で保存するとまた2001年になってしまうため)
     document.cookie = `date=${date.getTime()}`;
+  }
+
+  // 将来的には血圧データを保存
+  function saveData() {
+    let str = "";
+
+    // 一番上の行を取得して文字列にする
+    str += `${dataMorMax[0].value},`;
+    str += `${dataMorMin[0].value},`;
+    str += `${dataMorPul[0].value},`;
+    str += `${dataNgtMax[0].value},`;
+    str += `${dataNgtMin[0].value},`;
+    str += `${dataNgtPul[0].value},`;
+    
+    // 文字列をalertで出力
+    alert(str);
   }
 })();
