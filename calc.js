@@ -90,6 +90,7 @@
   function calc() {
     calcMax();
     calcMin();
+    saveData();
   }
 
   // 最大値の平均値計算
@@ -160,15 +161,16 @@
   function saveData() {
     let str = "";
 
-    // 一番上の行を取得して文字列にする
-    str += `${dataMorMax[0].value},`;
-    str += `${dataMorMin[0].value},`;
-    str += `${dataMorPul[0].value},`;
-    str += `${dataNgtMax[0].value},`;
-    str += `${dataNgtMin[0].value},`;
-    str += `${dataNgtPul[0].value},`;
-    
+    for (let i=0; i<dataMorMax.length; i++) {
+      str += `${dataMorMax[0].value},`;
+      str += `${dataMorMin[0].value},`;
+      str += `${dataMorPul[0].value},`;
+      str += `${dataNgtMax[0].value},`;
+      str += `${dataNgtMin[0].value},`;
+      str += `${dataNgtPul[0].value},`; // 最後のデータの後にも","が残るが取りあえず無視
+    }    
+
     // 文字列をalertで出力
-    alert(str);
+    document.cookie = `data=${data}`;
   }
 })();
