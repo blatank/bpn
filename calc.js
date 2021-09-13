@@ -220,7 +220,7 @@
     // cookieを一度クリアする
     document.cookie = "date=";
     document.cookie = "data=";
-    document.cookie = "max-age: 0";
+    document.cookie = "max-age=0";
   }
 
   // 入力データの保存
@@ -237,7 +237,7 @@
 
   // cookieの寿命を更新
   function updateMaxAge() {
-    document.cookie = `max-age: ${cookieLifeDay}`;
+    document.cookie = `max-age=${cookieLifeDay}`;
   }
 
   // 血圧データのロード
