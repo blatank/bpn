@@ -201,7 +201,8 @@
 
   // データクリア
   function clearAllData() {
-    let loopNum = dataMorMax.length + 1; // 最初のエディットボックスの分を入れる
+    // ループ回数は日付 * 2回 
+    let loopNum = (days.length + 1) * 2;
     for (let i=0; i<loopNum; i++) {
       dataMorMax[i].value = "";
       dataMorMin[i].value = "";
@@ -224,7 +225,8 @@
 
   // 入力データの保存
   function saveInputData() {
-    let loopNum = dataMorMax.length + 1; // 最初のエディットボックスの分を入れる
+    // ループ回数は日付 * 2回 
+    let loopNum = (days.length + 1) * 2;
     let dataForSave = "";
     for (let i=0; i<loopNum; i++) {
       if (i > 0) dataForSave += ",";
@@ -243,7 +245,8 @@
       let datas = value[1].split(",");
 
       if (datas.length > 0 && (datas.length % 6) === 0) {
-        let loopNum = dataMorMax.length + 1; // 最初のエディットボックスの分を入れる
+        // ループ回数は日付 * 2回 
+        let loopNum = (days.length + 1) * 2;
         for (let i=0; i<loopNum; i++) {
           dataMorMax[i].value = datas[i*6];
           dataMorMin[i].value = datas[i*6+1];
