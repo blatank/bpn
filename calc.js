@@ -1,5 +1,8 @@
 (function() {
   'use strict';
+
+  // 設定
+  const cookieLifeDay = 60*60*24*20; // 20日
   
   // デバッグ用
   const dbg = document.getElementById('debug');
@@ -215,7 +218,9 @@
     updateDate();
 
     // cookieを一度クリアする
-    document.cookie = "data=; date=; expires=Thu, 01 Jan 1970 00:00:00 GMT"
+    document.cookie = "date=";
+    document.cookie = "data=";
+    document.cookie = "max-age: 0";
   }
 
   // 入力データの保存
@@ -227,7 +232,12 @@
       dataForSave += `${dataMorMax[i].value},${dataMorMin[i].value},${dataMorPul[i].value},${dataNgtMax[i].value},${dataNgtMin[i].value},${dataNgtPul[i].value}`;
     }
     document.cookie = dataForSave;
-    console.log(dataForSave);
+    updateMaxAge();
+  }
+
+  // cookieの寿命を更新
+  function updateMaxAge() {
+    document.cookie = `max-age: ${cookieLifeDay}`;
   }
 
   // 血圧データのロード
@@ -273,6 +283,7 @@
   function saveDate(date) {
     // 時間として保存(月/日で保存するとまた2001年になってしまうため)
     document.cookie = `date=${date.getTime()}`;
+    updateMaxAge();
   }
 
   // クリップボードにすべてのデータを保存
