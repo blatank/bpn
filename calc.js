@@ -201,7 +201,7 @@
 
   // データクリア
   function clearAllData() {
-    let loopNum = days.length + 1; // 最初のエディットボックスの分を入れる
+    let loopNum = dataMorMax.length + 1; // 最初のエディットボックスの分を入れる
     for (let i=0; i<loopNum; i++) {
       dataMorMax[i].value = "";
       dataMorMin[i].value = "";
@@ -224,7 +224,7 @@
 
   // 入力データの保存
   function saveInputData() {
-    let loopNum = days.length + 1; // 最初のエディットボックスの分を入れる
+    let loopNum = dataMorMax.length + 1; // 最初のエディットボックスの分を入れる
     let dataForSave = "";
     for (let i=0; i<loopNum; i++) {
       if (i > 0) dataForSave += ",";
