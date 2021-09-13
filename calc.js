@@ -218,26 +218,19 @@
     updateDate();
 
     // cookieを一度クリアする
-    document.cookie = "date=";
-    document.cookie = "data=";
-    document.cookie = "max-age=0";
+    updateCookie("date", "", 0);
+    updateCookie("data", "", 0);
   }
 
   // 入力データの保存
   function saveInputData() {
     let loopNum = days.length + 1; // 最初のエディットボックスの分を入れる
-    let dataForSave = "data=";
+    let dataForSave = "";
     for (let i=0; i<loopNum; i++) {
       if (i > 0) dataForSave += ",";
       dataForSave += `${dataMorMax[i].value},${dataMorMin[i].value},${dataMorPul[i].value},${dataNgtMax[i].value},${dataNgtMin[i].value},${dataNgtPul[i].value}`;
     }
-    document.cookie = dataForSave;
-    updateMaxAge();
-  }
-
-  // cookieの寿命を更新
-  function updateMaxAge() {
-    document.cookie = `max-age=${cookieLifeDay}`;
+    updateCookie("data", dataForSave, cookieLifeDay);
   }
 
   // 血圧データのロード
@@ -264,6 +257,10 @@
     }
   }
 
+  function updateCookie(name, value, maxAge) {
+    document.cookie = `${name}=${value}; max-age=${maxAge}`;
+  }
+
   // 日付情報のロード
   function loadDate() {
     let re = /date=(\d+)/;
@@ -282,8 +279,7 @@
   // 日付情報の保存
   function saveDate(date) {
     // 時間として保存(月/日で保存するとまた2001年になってしまうため)
-    document.cookie = `date=${date.getTime()}`;
-    updateMaxAge();
+    updateCookie("date", date.getTime(), cookieLifeDay);
   }
 
   // クリップボードにすべてのデータを保存
