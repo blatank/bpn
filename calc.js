@@ -213,6 +213,9 @@
     // 日付もクリア(自動箇所はupdateDate()でクリア)
     dateEdit.value = "";
     updateDate();
+
+    // cookieを一度クリアする
+    document.cookie = "data=; date=; expires=Thu, 01 Jan 1970 00:00:00 GMT"
   }
 
   // 入力データの保存
@@ -237,7 +240,7 @@
       let datas = value[1].split(",");
 
       if (datas.length > 0 && (datas.length % 6) === 0) {
-        let loopNum = days.length + 1; // 最初のエディットボックスの分を入れる
+        let loopNum = dataMorMax.length + 1; // 最初のエディットボックスの分を入れる
         for (let i=0; i<loopNum; i++) {
           dataMorMax[i].value = datas[i*6];
           dataMorMin[i].value = datas[i*6+1];
