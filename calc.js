@@ -30,7 +30,14 @@
 
   // 日付関連
   const todayBtn = document.getElementById('today');
+  // 「今日」ボタンクリック時の処理
+  todayBtn.onclick = setDateAsToday;
+
   const dateEdit = document.getElementById('startDate');
+  // 一番上以外の日付情報のchangeイベント設定(手動で更新された場合)
+  dateEdit.onchange = updateDate;
+
+  // 一番上以降の日付情報の設定箇所
   const days = document.querySelectorAll('.day');
 
 
@@ -48,57 +55,71 @@
   const lenNgtMin = dataNgtMin.length;
   const lenNgtPul = dataNgtPul.length;
 
-  // 起動時に日付情報を更新
-  loadDate();
-  // データロード
-  loadInputData();
+// ====================================================================宣言部ここまで
   
-  // 血圧データのコールバック設定
-  for (let i=0; i<lenMorMax; i++) {
-    // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
-    dataMorMax[i].onchange = function() {
-      calcData(dataMorMax, tdMorMax);
-      saveInputData();
-    };
-  }
-  for (let i=0; i<lenMorMin; i++) {
-    // 最小側のエディットボックスでchangeイベントが発生したら最小値を再演算
-    dataMorMin[i].onchange = function() {
-      calcData(dataMorMin, tdMorMin);
-      saveInputData();
-    };
-  }
-  for (let i=0; i<lenMorPul; i++) {
-    // Pulse(朝)が変更されたら再演算
-    dataMorPul[i].onchange = function() {
-      calcData(dataMorPul, tdMorPul);
-      saveInputData();
-    };
-  }
-  for (let i=0; i<lenNgtMax; i++) {
-    // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
-    dataNgtMax[i].onchange = function() {
-      calcData(dataNgtMax, tdNgtMax);
-      saveInputData();
-    };
-  }
-  for (let i=0; i<lenNgtMin; i++) {
-    // 最小側のエディットボックスでchangeイベントが発生したら最小値を再演算
-    dataNgtMin[i].onchange = function() {
-      calcData(dataNgtMin, tdNgtMin);
-      saveInputData();
-    };
-  }
-  for (let i=0; i<lenNgtPul; i++) {
-    // Pulse(夜)が変更されたら再演算
-    dataNgtPul[i].onchange = function() {
-      calcData(dataNgtPul, tdNgtPul);
-      saveInputData();
-    };
-  }
+  // 初期化処理実施
+  bpnInit();
   
-  // 「今日」ボタンクリック時の処理
-  todayBtn.onclick = function() {
+// ====================================================================読み込み時処理ここまで
+
+  /**
+   * 初期化処理
+   */
+   function bpnInit() {
+    // 起動時に日付情報を更新
+    loadDate();
+    // データロード
+    loadInputData();
+    
+    // 血圧データのコールバック設定
+    for (let i=0; i<lenMorMax; i++) {
+      // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
+      dataMorMax[i].onchange = function() {
+        calcData(dataMorMax, tdMorMax);
+        saveInputData();
+      };
+    }
+    for (let i=0; i<lenMorMin; i++) {
+      // 最小側のエディットボックスでchangeイベントが発生したら最小値を再演算
+      dataMorMin[i].onchange = function() {
+        calcData(dataMorMin, tdMorMin);
+        saveInputData();
+      };
+    }
+    for (let i=0; i<lenMorPul; i++) {
+      // Pulse(朝)が変更されたら再演算
+      dataMorPul[i].onchange = function() {
+        calcData(dataMorPul, tdMorPul);
+        saveInputData();
+      };
+    }
+    for (let i=0; i<lenNgtMax; i++) {
+      // 最大側のエディットボックスでchangeイベントが発生したら最大値を再演算
+      dataNgtMax[i].onchange = function() {
+        calcData(dataNgtMax, tdNgtMax);
+        saveInputData();
+      };
+    }
+    for (let i=0; i<lenNgtMin; i++) {
+      // 最小側のエディットボックスでchangeイベントが発生したら最小値を再演算
+      dataNgtMin[i].onchange = function() {
+        calcData(dataNgtMin, tdNgtMin);
+        saveInputData();
+      };
+    }
+    for (let i=0; i<lenNgtPul; i++) {
+      // Pulse(夜)が変更されたら再演算
+      dataNgtPul[i].onchange = function() {
+        calcData(dataNgtPul, tdNgtPul);
+        saveInputData();
+      };
+    }
+  }
+
+  /**
+   * 今日の日付情報を設定
+   */
+  function setDateAsToday() {
     // 今日の日付情報を取得
     let today = new Date();
     // 今日のデータを一番上の日付エディットボックスに設定
@@ -107,11 +128,10 @@
     // 一番上以外の日付情報更新(onchange呼ばれないので自前でコール)
     updateDate();
   };
-
-  // 一番上以外の日付情報のchangeイベント設定(手動で更新された場合)
-  dateEdit.onchange = updateDate;
   
-  // 日付情報更新処理
+  /**
+   * 日付情報更新処理
+   */
   function updateDate() {
 
     // 自動箇所はまず空にする
@@ -146,16 +166,22 @@
     }
   }
 
-  // 日付情報を整形("month/days")の形にする
+  /**
+   * 日付情報を整形("month/days")の形にする
+   * @param {Date} date 日付 
+   * @returns String 日付("Moth/Day"の形)
+   */
   function month_day(date) {
     // getMonthは0始まりの月を返す(0=1月)
     // getDateは日付を返す
     return `${date.getMonth()+1}/${date.getDate()}`;
   }
 
-  // 平均値計算
-  // data: エディットボックスの配列
-  // output: 平均の出力先(td要素を想定)
+  /**
+   * 平均値演算
+   * @param {Array(HTMLElement)} data エディットボックスの配列(1列すべて) 
+   * @param {HTMLElement} output 平均の出力先(td要素を想定)
+   */
   function calcData(data, output) {
     // 母数と平均値を0で初期化
     let num = 0;
@@ -189,7 +215,9 @@
     }
   }
 
-  // 全データ再演算する
+  /**
+   * 全血圧データを再演算
+   */
   function calcAllData() {
     calcData(dataMorMax, tdMorMax);
     calcData(dataMorMin, tdMorMin);
@@ -199,7 +227,9 @@
     calcData(dataNgtPul, tdNgtPul);
   }
 
-  // データクリア
+  /**
+   * 入力データをクリアする
+   */
   function clearAllData() {
     // ループ回数は日付 * 2回 
     let loopNum = (days.length + 1) * 2;
@@ -223,7 +253,9 @@
     updateCookie("data", "", 0);
   }
 
-  // 入力データの保存
+  /**
+   * 入力データの保存
+   */
   function saveInputData() {
     // ループ回数は日付 * 2回 
     let loopNum = (days.length + 1) * 2;
@@ -235,7 +267,9 @@
     updateCookie("data", dataForSave, cookieLifeDay);
   }
 
-  // 血圧データのロード
+  /**
+   * 血圧データのロード
+   */
   function loadInputData() {
     let re = /data=([\d|,]+)/;
     let value = re.exec(document.cookie);
@@ -260,11 +294,19 @@
     }
   }
 
+  /**
+   * cookieの更新(汎用関数)
+   * @param {String} name cookie名
+   * @param {String} value cookie値
+   * @param {Number} maxAge 有効期限(秒)
+   */
   function updateCookie(name, value, maxAge) {
     document.cookie = `${name}=${value}; max-age=${maxAge}`;
   }
 
-  // 日付情報のロード
+  /**
+   * 日付情報のロード
+   */
   function loadDate() {
     let re = /date=(\d+)/;
     let value = re.exec(document.cookie);
@@ -279,13 +321,18 @@
     }
   }
 
-  // 日付情報の保存
+  /**
+   * 日付情報の保存
+   * @param {Date} date 日付 
+   */
   function saveDate(date) {
     // 時間として保存(月/日で保存するとまた2001年になってしまうため)
     updateCookie("date", date.getTime(), cookieLifeDay);
   }
 
-  // クリップボードにすべてのデータを保存
+  /**
+   * クリップボードにすべてのデータを保存
+   */
   function saveClipboard() {
     // cookieのデータをクリップボードに保存
     navigator.clipboard.writeText(document.cookie).then(function() {
@@ -297,7 +344,9 @@
     });
   }
 
-  // データロード
+  /**
+   * すべてのデータを入力文字列からロードする
+   */
   function loadTextData() {
     const inputStr = prompt("データを入力下さい(outputボタンをクリックしたときのもの)。");
     if (inputStr) {
