@@ -160,7 +160,7 @@
     for (let i=0; i<days.length; i++) {
       // dateに1日足す
       date.setDate(date.getDate() + 1);   // 月末に+1してもこれでうまく行く
-
+      alert(date.getDate() + 1);
       // tdに設定
       days[i].innerHTML = month_day(date);  // 整形はmonth_dayで実施
     }
@@ -176,10 +176,10 @@
     // getDateは日付を返す
     return `${date.getMonth()+1}/${date.getDate()}`;
   }
-
+  
   /**
    * 平均値演算
-   * @param {Array(HTMLElement)} data エディットボックスの配列(1列すべて) 
+   * @param {Array} data エディットボックスの配列(1列すべて) 
    * @param {HTMLElement} output 平均の出力先(td要素を想定)
    */
   function calcData(data, output) {
